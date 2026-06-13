@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Zona 2 — Química Humana</title>
+<meta name="description" content="Calcula tu rango de pulso para entrenar en zona 2, con la fórmula de frecuencia máxima calculada en mujeres. Sin venderte nada.">
+
+<!-- ============================================================
+     EDITA SOLO ESTO: tus enlaces reales.
+     Busca  href="..."  abajo del todo y cámbialos:
+       Telegram  -> https://t.me/TU_CANAL
+       Volver    -> tu página de enlaces
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#EBEEE8;
+    --paper-2:#E0E4DB;
+    --ink:#171814;
+    --ink-soft:#3A3C33;
+    --mute:#6E7165;
+    --magenta:#C2175A;
+    --magenta-deep:#9C0F46;
+    --plum:#3E1733;
+    --hair:#C9CDBF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:var(--paper);}
+  body{
+    font-family:"Inter",system-ui,sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    display:flex; justify-content:center;
+    padding:42px 22px 56px;
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      linear-gradient(var(--hair) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hair) 1px, transparent 1px);
+    background-size:34px 34px; background-position:center top;
+  }
+  body::before{
+    content:""; position:fixed; inset:0;
+    background:radial-gradient(120% 80% at 50% 0%, transparent 0%, var(--paper) 72%);
+    pointer-events:none;
+  }
+  .wrap{ position:relative; width:100%; max-width:460px; z-index:1; }
+
+  /* header */
+  .head{ margin-bottom:26px; }
+  .tile{
+    display:inline-block; text-align:left;
+    border:2px solid var(--ink); background:var(--paper);
+    padding:7px 9px 6px; width:74px; position:relative;
+    box-shadow:4px 4px 0 var(--plum); margin-bottom:18px;
+  }
+  .tile .num{ font-family:"Space Mono",monospace; font-size:9px; letter-spacing:.04em; display:block; line-height:1; }
+  .tile .sym{ font-family:"Syne",sans-serif; font-weight:800; font-size:34px; line-height:.92; letter-spacing:-.02em; margin-top:1px; }
+  .tile .nm{ font-family:"Space Mono",monospace; font-size:7px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); display:block; margin-top:2px; }
+
+  .eyebrow{ font-family:"Space Mono",monospace; font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--magenta); margin-bottom:8px; }
+  h1{ font-family:"Syne",sans-serif; font-weight:800; font-size:clamp(28px,8vw,38px); line-height:1; letter-spacing:-.02em; }
+  .sub{ font-size:14px; color:var(--ink-soft); margin-top:10px; }
+
+  /* form card */
+  .card{ border:2px solid var(--ink); background:var(--paper); padding:22px 20px; margin-top:24px; }
+  .field{ margin-bottom:18px; }
+  .field:last-of-type{ margin-bottom:0; }
+  label{ display:block; font-family:"Syne",sans-serif; font-weight:700; font-size:14px; margin-bottom:4px; }
+  .hint{ font-size:11.5px; color:var(--mute); margin-bottom:8px; }
+  input[type=number]{
+    width:100%; font-family:"Space Mono",monospace; font-size:18px;
+    padding:12px 14px; border:2px solid var(--ink); background:#fff; color:var(--ink);
+    -moz-appearance:textfield;
+  }
+  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+  input:focus{ outline:none; box-shadow:0 0 0 3px var(--magenta); }
+
+  .seg{ display:flex; gap:0; border:2px solid var(--ink); }
+  .seg button{
+    flex:1; font-family:"Inter",sans-serif; font-size:13px; font-weight:500;
+    padding:11px 8px; background:var(--paper); color:var(--ink); border:none; cursor:pointer;
+    border-right:2px solid var(--ink);
+  }
+  .seg button:last-child{ border-right:none; }
+  .seg button[aria-pressed=true]{ background:var(--ink); color:var(--paper); }
+
+  .calc{
+    width:100%; margin-top:22px; cursor:pointer;
+    font-family:"Syne",sans-serif; font-weight:700; font-size:16px;
+    padding:15px; background:var(--magenta); color:#fff;
+    border:2px solid var(--magenta-deep);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .calc:hover{ transform:translateY(-2px); box-shadow:0 4px 0 var(--magenta-deep); }
+  .calc:focus-visible{ outline:none; box-shadow:0 0 0 3px var(--ink); }
+
+  .error{ color:var(--magenta-deep); font-size:13px; font-weight:600; margin-top:12px; display:none; }
+
+  /* result */
+  .result{ display:none; margin-top:24px; }
+  .range-card{
+    border:2px solid var(--ink); background:var(--ink); color:var(--paper);
+    padding:24px 20px; text-align:center;
+  }
+  .range-card .cap{ font-family:"Space Mono",monospace; font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:#B9BCB0; }
+  .range-card .big{ font-family:"Syne",sans-serif; font-weight:800; font-size:clamp(40px,13vw,58px); line-height:1; margin:8px 0; }
+  .range-card .big span{ color:var(--magenta); }
+  .range-card .unit{ font-family:"Space Mono",monospace; font-size:13px; color:#B9BCB0; }
+  .method{ font-size:11.5px; color:var(--mute); margin-top:12px; padding:0 4px; }
+
+  .block{ border:2px solid var(--ink); padding:16px 18px; margin-top:16px; background:var(--paper); }
+  .block h3{ font-family:"Syne",sans-serif; font-weight:700; font-size:15px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  .block h3::before{ content:""; width:11px; height:11px; background:var(--magenta); clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); flex:0 0 auto; }
+  .block p{ font-size:13.5px; color:var(--ink-soft); }
+  .block p + p{ margin-top:8px; }
+  .block b{ color:var(--ink); }
+
+  /* footer cta */
+  .foot{ margin-top:26px; text-align:center; }
+  .foot a.tg{
+    display:inline-block; font-family:"Syne",sans-serif; font-weight:700; font-size:14px;
+    text-decoration:none; color:var(--ink); border:2px solid var(--ink);
+    padding:12px 20px; transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .foot a.tg:hover{ transform:translateY(-2px); box-shadow:0 4px 0 var(--plum); }
+  .foot .back{ display:block; margin-top:14px; font-family:"Space Mono",monospace; font-size:11px; letter-spacing:.08em; color:var(--mute); text-decoration:none; }
+  .foot .back:hover{ color:var(--ink); }
+</style>
+</head>
+<body>
+  <main class="wrap">
+
+    <header class="head">
+      <div class="tile" aria-hidden="true">
+        <span class="num">35+</span><span class="sym">Qh</span><span class="nm">química humana</span>
+      </div>
+      <p class="eyebrow">Cardio · longevidad</p>
+      <h1>Tu zona 2</h1>
+      <p class="sub">El ritmo donde quemas grasa, cuidas tus hormonas y entrenas tu longevidad — sin reventarte. Calcula tu rango exacto de pulso.</p>
+    </header>
+
+    <section class="card">
+      <div class="field">
+        <label for="age">Tu edad</label>
+        <input type="number" id="age" inputmode="numeric" min="15" max="100" placeholder="Ej. 38">
+      </div>
+
+      <div class="field">
+        <label for="rest">Pulso en reposo</label>
+        <p class="hint">Opcional. Mídelo recién despierta, en ppm. Si lo pones, el cálculo es más preciso (método Karvonen).</p>
+        <input type="number" id="rest" inputmode="numeric" min="35" max="110" placeholder="Ej. 62 (opcional)">
+      </div>
+
+      <div class="field">
+        <label>¿Por dónde empiezas?</label>
+        <div class="seg" role="group" aria-label="Nivel">
+          <button type="button" data-level="start" aria-pressed="false">Empiezo de cero</button>
+          <button type="button" data-level="active" aria-pressed="true">Ya entreno algo</button>
+        </div>
+      </div>
+
+      <button type="button" class="calc" id="go">Calcular mi zona 2</button>
+      <p class="error" id="err">Escribe una edad válida (entre 15 y 100).</p>
+    </section>
+
+    <section class="result" id="result" aria-live="polite">
+      <div class="range-card">
+        <div class="cap">Tu rango de zona 2</div>
+        <div class="big"><span id="lo">—</span> – <span id="hi">—</span></div>
+        <div class="unit">pulsaciones por minuto</div>
+        <div class="method" id="method"></div>
+      </div>
+
+      <div class="block">
+        <h3>El test sin pulsómetro</h3>
+        <p>Si no llevas reloj, esta es la regla de oro: estás en zona 2 cuando puedes <b>hablar frases completas sin quedarte sin aire</b>. Si solo te salen palabras sueltas, vas demasiado fuerte; baja el ritmo.</p>
+      </div>
+
+      <div class="block">
+        <h3>Tu plan de la semana</h3>
+        <p id="plan"></p>
+        <p>Vale caminar rápido, trote suave, bici o nadar. Lo importante es mantener el pulso en tu rango, no ir más fuerte.</p>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <a class="tg" href="https://t.me/TU_CANAL">Más protocolos en mi Telegram →</a>
+      <a class="back" href="https://yanayanayana-hub.github.io/yanayanayana-hub/">← volver a mis enlaces</a>
+    </footer>
+
+  </main>
+
+<script>
+  var level = "active";
+  var segBtns = document.querySelectorAll(".seg button");
+  segBtns.forEach(function(b){
+    b.addEventListener("click", function(){
+      segBtns.forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+      b.setAttribute("aria-pressed","true");
+      level = b.getAttribute("data-level");
+    });
+  });
+
+  function calc(){
+    var age = parseInt(document.getElementById("age").value, 10);
+    var rest = parseInt(document.getElementById("rest").value, 10);
+    var err = document.getElementById("err");
+
+    if(isNaN(age) || age < 15 || age > 100){
+      err.style.display = "block";
+      document.getElementById("result").style.display = "none";
+      return;
+    }
+    err.style.display = "none";
+
+    // Frecuencia máxima — fórmula Gulati, calculada en mujeres
+    var hrMax = Math.round(206 - 0.88 * age);
+
+    var lo, hi, methodText;
+    if(!isNaN(rest) && rest >= 35 && rest <= 110){
+      // Karvonen: usa la reserva de frecuencia cardíaca
+      var reserve = hrMax - rest;
+      lo = Math.round(rest + 0.60 * reserve);
+      hi = Math.round(rest + 0.70 * reserve);
+      methodText = "Método Karvonen (60–70% de tu reserva de FC). FC máxima estimada: " + hrMax + " ppm con la fórmula de Gulati, calculada en mujeres.";
+    } else {
+      lo = Math.round(0.60 * hrMax);
+      hi = Math.round(0.70 * hrMax);
+      methodText = "60–70% de tu FC máxima (" + hrMax + " ppm), estimada con la fórmula de Gulati, calculada en mujeres. Añade tu pulso en reposo arriba para afinar el cálculo.";
+    }
+
+    document.getElementById("lo").textContent = lo;
+    document.getElementById("hi").textContent = hi;
+    document.getElementById("method").textContent = methodText;
+
+    var plan;
+    if(level === "start"){
+      plan = "Objetivo: <b>150 minutos a la semana</b>. Empieza con <b>3 sesiones de 50 minutos</b> (o 5 de 30 si prefieres tramos cortos). Sube poco a poco; la constancia gana a la intensidad.";
+    } else {
+      plan = "Objetivo: <b>200–300 minutos a la semana</b>. Por ejemplo <b>4 sesiones de 50–60 minutos</b>. Es el rango donde se ve el efecto sobre mitocondrias y metabolismo.";
+    }
+    document.getElementById("plan").innerHTML = plan;
+
+    var r = document.getElementById("result");
+    r.style.display = "block";
+    r.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  document.getElementById("go").addEventListener("click", calc);
+  document.querySelectorAll("input").forEach(function(inp){
+    inp.addEventListener("keydown", function(e){ if(e.key === "Enter") calc(); });
+  });
+</script>
+</body>
+</html>
