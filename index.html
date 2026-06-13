@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Química Humana — Yana</title>
+<meta name="description" content="Bioquímica del cuerpo femenino, traducida. Ciencia basada en evidencia para mujeres +35. Sin venderte nada.">
+
+<!-- ============================================================
+     EDITA SOLO ESTO: pega tus enlaces reales aquí abajo.
+     Busca cada  href="..."  en el cuerpo de la página y cámbialo.
+       Telegram   -> https://t.me/TU_CANAL
+       TikTok     -> https://www.tiktok.com/@quimicahumana
+       Instagram  -> https://www.instagram.com/quimicahumana
+       BodyShift  -> https://TU_USUARIO.github.io/bodyshift  (o quítalo si aún no está)
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#EBEEE8;
+    --paper-2:#E0E4DB;
+    --ink:#171814;
+    --ink-soft:#3A3C33;
+    --mute:#6E7165;
+    --magenta:#C2175A;
+    --magenta-deep:#9C0F46;
+    --plum:#3E1733;
+    --hair:#C9CDBF;
+    --node:#171814;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  html,body{background:var(--paper);}
+  body{
+    font-family:"Inter",system-ui,sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:42px 22px 56px;
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+    /* faint grid, like lab paper */
+    background-image:
+      linear-gradient(var(--hair) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hair) 1px, transparent 1px);
+    background-size:34px 34px;
+    background-position:center top;
+  }
+  /* fade the grid so it reads as texture, not a table */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background:radial-gradient(120% 80% at 50% 0%, transparent 0%, var(--paper) 72%);
+    pointer-events:none;
+  }
+
+  .wrap{
+    position:relative;
+    width:100%;
+    max-width:440px;
+    z-index:1;
+  }
+
+  /* ---------- masthead ---------- */
+  .head{ text-align:center; margin-bottom:34px; }
+
+  .tile{
+    display:inline-block;
+    text-align:left;
+    border:2px solid var(--ink);
+    background:var(--paper);
+    padding:9px 11px 8px;
+    width:96px;
+    position:relative;
+    box-shadow:5px 5px 0 var(--plum);
+  }
+  .tile .num{
+    font-family:"Space Mono",monospace;
+    font-size:11px; letter-spacing:.04em;
+    display:block; line-height:1;
+  }
+  .tile .sym{
+    font-family:"Syne",sans-serif;
+    font-weight:800; font-size:46px; line-height:.92;
+    letter-spacing:-.02em; margin-top:2px;
+  }
+  .tile .nm{
+    font-family:"Space Mono",monospace;
+    font-size:9px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-soft); display:block; margin-top:3px;
+  }
+
+  .eyebrow{
+    font-family:"Space Mono",monospace;
+    font-size:10.5px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--magenta);
+    margin:26px 0 10px;
+  }
+  .wordmark{
+    font-family:"Syne",sans-serif;
+    font-weight:800;
+    font-size:clamp(34px,11vw,46px);
+    line-height:.96; letter-spacing:-.025em;
+    text-transform:uppercase;
+  }
+  .tagline{
+    font-size:14.5px; color:var(--ink-soft);
+    max-width:340px; margin:14px auto 0;
+  }
+  .tagline b{ color:var(--ink); font-weight:600; }
+
+  /* ---------- molecular spine of links ---------- */
+  .chain{ position:relative; padding-left:30px; }
+  .chain::before{
+    content:""; position:absolute; left:9px; top:14px; bottom:14px;
+    width:2px; background:var(--ink);
+  }
+
+  .node{ position:relative; margin:14px 0; }
+  /* hexagon marker sitting on the bond line */
+  .node::before{
+    content:""; position:absolute; left:-28px; top:50%;
+    width:13px; height:13px; transform:translateY(-50%);
+    background:var(--ink); border:none;
+    clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
+  }
+  .node.lead::before{
+    background:var(--magenta);
+    width:18px; height:18px; left:-30px;
+  }
+
+  .link{
+    display:flex; align-items:center; gap:14px;
+    text-decoration:none; color:var(--ink);
+    background:var(--paper);
+    border:2px solid var(--ink);
+    padding:15px 17px; min-height:62px;
+    transition:transform .14s ease, box-shadow .14s ease, background .14s ease;
+  }
+  .link:hover,.link:focus-visible{
+    transform:translateX(3px);
+    box-shadow:-4px 4px 0 var(--plum);
+    outline:none;
+  }
+  .link:focus-visible{ box-shadow:-4px 4px 0 var(--plum), 0 0 0 3px var(--magenta); }
+
+  .ic{ flex:0 0 26px; width:26px; height:26px; color:var(--ink); }
+  .txt{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; }
+  .txt .badge{ align-self:flex-start; }
+  .txt .t{
+    font-family:"Syne",sans-serif; font-weight:700;
+    font-size:16px; letter-spacing:-.01em; line-height:1.1;
+  }
+  .txt .s{
+    font-size:12.5px; color:var(--mute); margin-top:2px;
+  }
+  .arrow{
+    flex:0 0 auto; font-family:"Space Mono",monospace;
+    font-size:15px; color:var(--mute);
+  }
+
+  /* lead / featured card */
+  .link.feat{
+    background:var(--magenta); border-color:var(--magenta-deep);
+    color:#fff; min-height:74px;
+  }
+  .link.feat .ic{ color:#fff; }
+  .link.feat .txt .t{ color:#fff; font-size:17px; }
+  .link.feat .txt .s{ color:#FBD9E5; }
+  .link.feat .arrow{ color:#FBD9E5; }
+  .link.feat .badge{
+    font-family:"Space Mono",monospace; font-size:9px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--magenta);
+    background:#fff; padding:2px 6px; display:inline-block; margin-bottom:5px;
+  }
+
+  /* ---------- footer ---------- */
+  .foot{
+    margin-top:34px; text-align:center;
+    font-family:"Space Mono",monospace;
+    font-size:10.5px; letter-spacing:.1em; color:var(--mute);
+    line-height:1.7;
+  }
+  .foot .sep{ color:var(--hair); }
+
+  /* entrance animation */
+  @media (prefers-reduced-motion:no-preference){
+    .anim{ opacity:0; transform:translateY(10px); animation:rise .5s ease forwards; }
+    .d1{animation-delay:.05s}.d2{animation-delay:.13s}.d3{animation-delay:.21s}
+    .d4{animation-delay:.29s}.d5{animation-delay:.37s}.d6{animation-delay:.45s}
+    @keyframes rise{to{opacity:1;transform:none}}
+  }
+</style>
+</head>
+<body>
+  <main class="wrap">
+
+    <header class="head">
+      <div class="tile anim d1" aria-hidden="true">
+        <span class="num">35+</span>
+        <span class="sym">Qh</span>
+        <span class="nm">química humana</span>
+      </div>
+      <p class="eyebrow anim d2">Bioquímica femenina · evidencia</p>
+      <h1 class="wordmark anim d2">Química<br>Humana</h1>
+      <p class="tagline anim d3">Traduzco la ciencia que la industria del fitness ignora sobre el cuerpo de la mujer +35. <b>Sin venderte nada.</b></p>
+    </header>
+
+    <nav class="chain" aria-label="Mis enlaces">
+
+      <!-- FEATURED: imán de leads -> Telegram -->
+      <div class="node lead anim d3">
+        <a class="link feat" href="https://t.me/TU_CANAL">
+          <svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.94 4.4 18.9 19.1c-.23 1.02-.84 1.27-1.7.79l-4.7-3.46-2.27 2.18c-.25.25-.46.46-.94.46l.33-4.78 8.7-7.86c.38-.34-.08-.53-.59-.19L6.97 13.2l-4.64-1.45c-1.01-.32-1.03-1.01.21-1.5l18.13-6.99c.84-.31 1.58.2 1.27 1.64Z"/></svg>
+          <span class="txt">
+            <span class="badge">Gratis</span>
+            <span class="t">Protocolo de Zona 2</span>
+            <span class="s">Descárgalo en mi canal de Telegram</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <!-- TikTok -->
+      <div class="node anim d4">
+        <a class="link" href="https://www.tiktok.com/@quimicahumana">
+          <svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 3c.3 2 1.5 3.6 3.5 4.1V10c-1.4 0-2.7-.4-3.8-1.2v6.6c0 3.3-2.5 5.6-5.6 5.6S5 18.7 5 15.4c0-2.9 2.2-5.3 5.2-5.6v3c-1.3.3-2.2 1.3-2.2 2.6 0 1.5 1.1 2.6 2.6 2.6s2.6-1.1 2.6-2.7V3h3.3Z"/></svg>
+          <span class="txt">
+            <span class="t">TikTok</span>
+            <span class="s">@quimicahumana</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <!-- Instagram -->
+      <div class="node anim d5">
+        <a class="link" href="https://www.instagram.com/quimicahumana">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+          <span class="txt">
+            <span class="t">Instagram</span>
+            <span class="s">@quimicahumana</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <!-- BodyShift (quítalo si aún no está público) -->
+      <div class="node anim d6">
+        <a class="link" href="https://TU_USUARIO.github.io/bodyshift">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M5 8c4 0 7 2 7 5"/><path d="M19 8c-4 0-7 2-7 5"/><circle cx="12" cy="3.4" r="1.3" fill="currentColor" stroke="none"/></svg>
+          <span class="txt">
+            <span class="t">BodyShift</span>
+            <span class="s">Salud femenina sincronizada con tu ciclo</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+    </nav>
+
+    <footer class="foot anim d6">
+      Yana — química industrial (MSc) <span class="sep">/</span> ciencia, sin humo
+    </footer>
+
+  </main>
+</body>
+</html>
